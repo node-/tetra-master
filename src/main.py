@@ -88,6 +88,14 @@ def gen_world():
     world = []
     for a in range(4):
         world.append([{}, {}, {} ,{}])
+    i = j = 0
+    for row in world:
+        for cell in row:
+            cell["coords"] = [i * 84, j * 102]
+            i += 1
+        j += 1
+    for row in world:
+        print row
 
 if __name__ == '__main__':
     main()
