@@ -1,58 +1,20 @@
+
 #!/usr/bin/python
 # Jake Kosberg
 # http://github.com/node-/tetra-master
-#
+# Main Module
 
-import os, pygame
+import os
+import pygame
 from pygame.locals import *
 
-def dirlock(fn):
-    return os.path.join(os.path.dirname(__file__), fn)
+# Modules
+import worldgen
+import utils
+import pieces
+import worldgen
+import events
 
-class card(pygame.sprite.Sprite):
-    def __init__(self, monster):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(dirlock('../data/cards/' + monster + '.bmp'))
-        self.width, self.height = pygame.Surface.get_size(self.image)
-        self.name = monster
-        self.xpos = 520
-        self.ypos = 20
-        self.selected = False
-        screen = pygame.display.get_surface()
-    def select(self):
-        for monster in get_cards():
-            monster.selected = False
-        self.selected = True
-        return self.selected
-    def deselect(self):
-        self.selected = False
-
-
-def get_cards():
-    monsterone = card("one")
-    monstertwo = card("two")
-    monsterthree = card("three")
-    monsterfour = card("four")
-    monsterfive = card("five")
-    cards = [monsterone,
-            monstertwo,
-            monsterthree,
-            monsterfour,
-            monsterfive]
-    i = 0
-    for monster in cards:
-        monster.ypos += monster.height * i * .84
-        i += 1
-    return cards
-
-def event_selected(cards,mx,my):
-    for monster in cards:
-        if ((mx > monster.xpos and mx < monster.xpos + monster.width) and 
-                (my > monster.ypos and my < monster.ypos + monster.width) and
-                monster.selected == False):
-            monster.select()
-        elif monster.selected == True:
-            monster.deselect()
 
 
 def main():
@@ -61,41 +23,36 @@ def main():
     screen = pygame.display.set_mode((640, 480))
     clock = pygame.time.Clock()
     pygame.display.set_caption('Tetra Master')
-    board = pygame.image.load(dirlock('../data/board.bmp'))
-
-    cards = get_cards()
-    
+    board = pygame.image.load(utils.dirlock('../data/board.bmp'))
+    world = worldgen.gen_world()
+    cards = pieces.get_cards() 
+    selection = False
 
     while running:
         clock.tick(60)
         screen.blit(board,(0,0))
         myfont = pygame.font.SysFont("monospace", 30)
+        mx,my = pygame.mouse.get_pos()
+        mouse_pos = (mx, my)
+        pygame.draw.rect(screen, (100,40,80), (150,40, 336, 408))
+        for a in world:
+            for b in a:
+                pygame.draw.rect(screen, (0,0,0), (b.xpos, b.ypos, 84, 102))
+                if b.card:
+                    b.draw(b.card.image)
+                    screen.blit(b.image, (b.xpos, b.ypos))
         for monster in cards:
             screen.blit(monster.image,(monster.xpos, monster.ypos))
             if monster.selected == True:
                 current_selected = myfont.render("'" + monster.name + "' is selected!", 1, (255,255,255))
                 screen.blit(current_selected, (100, 100))
-        mx,my = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == QUIT:
                 running = False
             elif event.type == MOUSEBUTTONDOWN:
-                event_selected(cards,mx,my)
+               cards, selection = events.watch(cards,selection,mouse_pos,world) 
 
         pygame.display.update()
-
-def gen_world():
-    world = []
-    for a in range(4):
-        world.append([{}, {}, {} ,{}])
-    i = j = 0
-    for row in world:
-        for cell in row:
-            cell["coords"] = [i * 84, j * 102]
-            i += 1
-        j += 1
-    for row in world:
-        print row
 
 if __name__ == '__main__':
     main()
