@@ -6,6 +6,15 @@
 import os
 import sys
 
+def cell_hovered(cell, mouse_pos):
+    mx, my = mouse_pos
+    if ((mx > cell.xpos and mx < cell.xpos + cell.width) and 
+            (my > cell.ypos and my < cell.ypos + cell.height) and
+            not cell.card):
+        return True
+    else:
+        return False
+
 def dirlock(fn):
     return os.path.join(os.path.dirname(__file__), fn)
 

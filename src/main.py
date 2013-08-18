@@ -1,4 +1,3 @@
-
 #!/usr/bin/python
 # Jake Kosberg
 # http://github.com/node-/tetra-master
@@ -31,7 +30,7 @@ def main():
     while running:
         clock.tick(60)
         screen.blit(board,(0,0))
-        myfont = pygame.font.SysFont("monospace", 30)
+        myfont = pygame.font.Font(utils.dirlock("../data/Trajan-Bold.ttf"), 30)
         mx,my = pygame.mouse.get_pos()
         mouse_pos = (mx, my)
         pygame.draw.rect(screen, (100,40,80), (150,40, 336, 408))
@@ -44,7 +43,7 @@ def main():
         for monster in cards:
             screen.blit(monster.image,(monster.xpos, monster.ypos))
             if monster.selected == True:
-                current_selected = myfont.render("'" + monster.name + "' is selected!", 1, (255,255,255))
+                current_selected = myfont.render(monster.name + " is selected!", 1, (255,255,255))
                 screen.blit(current_selected, (100, 100))
         for event in pygame.event.get():
             if event.type == QUIT:

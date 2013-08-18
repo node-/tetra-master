@@ -14,6 +14,7 @@ class card(pygame.sprite.Sprite):
         self.name = monster
         self.xpos = 520
         self.ypos = 20
+        self.blocked = True
         self.selected = False
         screen = pygame.display.get_surface()
     def select(self):
@@ -50,12 +51,15 @@ def get_cards():
 
 
 class board_piece():
-    def __init__(self):
+    def __init__(self,blocked=False):
         self.width, self.height = (84, 102)
         self.xpos = 0
         self.ypos = 0
-        self.card = None
         self.image = None
+        self.card = None
+        self.blocked = blocked
+        if blocked:
+            self.image = pygame.image.load(utils.dirlock('../data/brick.bmp'))
     def draw(self, image):
         self.image = image 
 

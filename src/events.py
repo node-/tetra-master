@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Jake Kosberg
-# http://github.com/node-/tetra-master
-# Main Module
+#
+# Events module
 
 import pygame
 from pygame.locals import *
@@ -16,9 +16,9 @@ def watch(cards,selection,mouse_pos,world):
     if selection:
         for row in world:
             for cell in row:
-                if (mx > cell.xpos and mx < cell.xpos + cell.width and 
-                        my > cell.ypos and my < cell.ypos + cell.height):
-                    cell.card = selection
-                    cards = selection.remove_from_hand(cards)
+                if cell:
+                    if utils.cell_hovered(cell,mouse_pos):
+                        cell.card = selection
+                        cards = selection.remove_from_hand(cards)
     selection = utils.event_selected(cards,mx,my)
     return cards, selection
