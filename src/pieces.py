@@ -18,7 +18,7 @@ class card(pygame.sprite.Sprite):
         self.selected = False
         screen = pygame.display.get_surface()
     def select(self):
-        for monster in get_cards():
+        for monster in get_hand():
             monster.selected = False
         self.selected = True
         return self.selected
@@ -32,7 +32,7 @@ class card(pygame.sprite.Sprite):
         return cards
 
 
-def get_cards():
+def get_hand():
     monsterone = card("one")
     monstertwo = card("two")
     monsterthree = card("three")

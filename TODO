@@ -1,0 +1,19 @@
+#- create grid
+#- hand event logic
+#   + card playing logic
+#   + hover selection logic
+
+- card input
+    + automate process
+    + add metadata and text doc
+
+- turns and game states
+    + utilize the world class in events.py
+    + only allow player to move on his turn
+    + randomized enemy's move
+
+- create battle scenarios
+    + functions inside of world state
+    + mapping functions for a random amount of damage between random range scaled from attack damage
+    + learn how the hell the game deals with hit points
+

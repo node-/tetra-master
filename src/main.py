@@ -11,10 +11,7 @@ from pygame.locals import *
 import worldgen
 import utils
 import pieces
-import worldgen
 import events
-
-
 
 def main():
     running = True
@@ -23,33 +20,40 @@ def main():
     clock = pygame.time.Clock()
     pygame.display.set_caption('Tetra Master')
     board = pygame.image.load(utils.dirlock('../data/board.bmp'))
-    world = worldgen.gen_world()
-    cards = pieces.get_cards() 
-    selection = False
+
+    _selection = False
+    _world = worldgen.gen_world()
+    _hand = pieces.get_hand()
 
     while running:
+        # Initialization
         clock.tick(60)
         screen.blit(board,(0,0))
-        myfont = pygame.font.Font(utils.dirlock("../data/Trajan-Bold.ttf"), 30)
-        mx,my = pygame.mouse.get_pos()
-        mouse_pos = (mx, my)
+        trayjizzle = pygame.font.Font(utils.dirlock("../data/Trajan-Bold.ttf"), 30)
+        monospizzle = pygame.font.SysFont("monospace", 15, True)
+        mx, my = pygame.mouse.get_pos()
+        _mouse_pos = (mx, my)
+        
+        # Drawing
         pygame.draw.rect(screen, (100,40,80), (150,40, 336, 408))
-        for a in world:
-            for b in a:
-                pygame.draw.rect(screen, (0,0,0), (b.xpos, b.ypos, 84, 102))
-                if b.card:
-                    b.draw(b.card.image)
-                    screen.blit(b.image, (b.xpos, b.ypos))
-        for monster in cards:
+        utils.print_world(_world, screen)
+        display_mouse_coords = monospizzle.render("(" + str(mx) + ", " + str(my) + ")", 1, (255,255,255))
+        screen.blit(display_mouse_coords, (5,5))
+
+        front_card = _hand[-1]
+        for monster in _hand:
+            if monster.selected:
+                screen.blit(monster.image,(monster.xpos, monster.ypos))
+            if utils.cell_hovered(monster, _mouse_pos) and front_card != monster:
+                _hand.insert(-1, _hand.pop(_hand.index(monster)))
             screen.blit(monster.image,(monster.xpos, monster.ypos))
-            if monster.selected == True:
-                current_selected = myfont.render(monster.name + " is selected!", 1, (255,255,255))
-                screen.blit(current_selected, (100, 100))
+
+        
         for event in pygame.event.get():
             if event.type == QUIT:
                 running = False
             elif event.type == MOUSEBUTTONDOWN:
-               cards, selection = events.watch(cards,selection,mouse_pos,world) 
+               _hand, _selection = events.watch(_hand,_selection,_mouse_pos,_world)
 
         pygame.display.update()
 
