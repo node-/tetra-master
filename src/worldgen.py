@@ -13,6 +13,7 @@ class World():
     def __init__(self,_world):
         self.grid = _world
         self.player = True
+        
 
     def switch_turn(self):
         self.player = not self.player
@@ -53,4 +54,6 @@ def gen_world():
             cell.ypos = j * (102 + 2) + startingPoint["y"]
             i += 1
         j += 1
+    _world = World(_world)
+
     return _world

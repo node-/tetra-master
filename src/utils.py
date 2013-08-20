@@ -19,7 +19,7 @@ def dirlock(fn):
     return os.path.join(os.path.dirname(__file__), fn)
 
 def print_world(_world, screen):
-    for row in _world:
+    for row in _world.grid:
         for cell in row:
             pygame.draw.rect(screen, (0,0,0), (cell.xpos, cell.ypos, 84, 102))
             if cell.card:

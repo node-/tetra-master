@@ -3,6 +3,10 @@
 #   + card playing logic
 #   + hover selection logic
 
+#- world creation
+#   + represent grid in lists
+#   + random brick generation
+
 - card input
     + automate process
     + add metadata and text doc

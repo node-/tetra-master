@@ -22,8 +22,8 @@ def main():
     board = pygame.image.load(utils.dirlock('../data/board.bmp'))
 
     _selection = False
-    _world = worldgen.gen_world()
     _hand = pieces.get_hand()
+    _world = worldgen.gen_world()
 
     while running:
         # Initialization
@@ -40,12 +40,7 @@ def main():
         display_mouse_coords = monospizzle.render("(" + str(mx) + ", " + str(my) + ")", 1, (255,255,255))
         screen.blit(display_mouse_coords, (5,5))
 
-        front_card = _hand[-1]
         for monster in _hand:
-            if monster.selected:
-                screen.blit(monster.image,(monster.xpos, monster.ypos))
-            if utils.cell_hovered(monster, _mouse_pos) and front_card != monster:
-                _hand.insert(-1, _hand.pop(_hand.index(monster)))
             screen.blit(monster.image,(monster.xpos, monster.ypos))
 
         
