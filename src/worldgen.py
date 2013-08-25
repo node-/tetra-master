@@ -12,11 +12,9 @@ import utils
 class World():
     def __init__(self,_world):
         self.grid = _world
-        self.player = True
-        
-
+        self.currentPlayer = True
     def switch_turn(self):
-        self.player = not self.player
+        self.currentPlayer = not self.currentPlayer
 
 
 def gen_world():
@@ -56,4 +54,4 @@ def gen_world():
         j += 1
     _world = World(_world)
 
-    return _world
+    return _world 
