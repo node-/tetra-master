@@ -17,7 +17,7 @@ class Turn():
             for row in _world.grid:
                 for cell in row:
                     if cell:
-                        if utils.cell_hovered(cell,_mouse_pos) and not cell.card: 
+                        if utils.cell_hovered(cell,_mouse_pos) and not cell.card:
                             cell.card = _selection
                             _hand = _selection.remove_from_hand(_hand)
                             _world.currentPlayer = not _world.currentPlayer
@@ -25,15 +25,11 @@ class Turn():
         return _hand, _selection
 
 
-    def ai(self,_world,_event):
-        check_list = []
-        for action in _event:
-            if event.type == MOUSEBUTTONDOWN:
-                for row in _world.grid:
-                    for cell in row:
-                        if cell:
-                            check_list.append(cell)
-                            if check_list == _world and random.randint(0,10) == 9:
-                                cell.card = pieces.card("one") 
-                            else:
-                                ai(_world,_event)
+    def ai(self,_world):
+        xpos = random.randint(0,len(_world.grid)-1)
+        ypos = random.randint(0,len(_world.grid[0])-1)
+        cell = _world.grid[xpos][ypos]
+        if not cell.card:
+            cell.card = pieces.card("alex")
+            _world.currentPlayer = not _world.currentPlayer
+            print "AI Played:", (xpos, ypos)

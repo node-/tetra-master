@@ -40,17 +40,11 @@ def main():
         utils.print_world(_world, screen)
         display_mouse_coords = monospizzle.render("(" + str(mx) + ", " + str(my) + ")", 1, (255,255,255))
         screen.blit(display_mouse_coords, (5,5))
-        if _world.currentPlayer == False:
-            current_player_text = trayjizzle.render("Current Player: AI", 1, (255,255,255))
-        elif _world.currentPlayer == True:
-            current_player_text = trayjizzle.render("Current Player: Player", 1, (255,255,255))
-        screen.blit(current_player_text, (50,400))
         for monster in _hand:
             screen.blit(monster.image,(monster.xpos, monster.ypos))
             if monster.selected == True:
                 current_selected = trayjizzle.render(monster.name + " is selected!", 1, (255,255,255))
                 screen.blit(current_selected, (100, 100))
-
         for _event in pygame.event.get():
             if _event.type == QUIT:
                 running = False
@@ -60,6 +54,11 @@ def main():
                             _selection,
                             _mouse_pos,
                             _world)
+        if _world.currentPlayer == False:
+            turn.ai(_world)
+        current_player_text = trayjizzle.render("Current Player: " + ("Player" if  _world.currentPlayer else "AI"), 
+                1, (255,255,255))
+        screen.blit(current_player_text, (50,400))
 
         pygame.display.update()
 

@@ -20,8 +20,7 @@ class World():
 def gen_world():
     _world = []
     brick_pos = []
-    blocked = True
-    brick_amt = random.randint(3,6) # Don't set over 16, since there are only 16 on the grid
+    brick_amt = random.randint(2,6) # Don't set over 16
     print "Generating " + str(brick_amt) + " bricks at coords: " 
     for a in range(4):
         row = []
@@ -30,18 +29,13 @@ def gen_world():
         _world.append(row)
     startingPoint = {"x" : 150,
                      "y" : 40}
-    remaining_bricks = []
-
-    for i in range(0,brick_amt):
-        remaining_bricks.append(i)
-
-    while len(remaining_bricks) > 0:
+    while brick_amt > 0:
         brick_xpos = random.randint(0,3)
         brick_ypos = random.randint(0,3)
         if not (brick_xpos, brick_ypos) in brick_pos:
-            remaining_bricks.pop()
+            brick_amt -= 1
             brick_pos.append((brick_xpos, brick_ypos))
-            _world[brick_xpos][brick_ypos].card = pieces.board_piece(blocked)
+            _world[brick_xpos][brick_ypos].card = pieces.board_piece(True)
     
     print brick_pos
     j = 0

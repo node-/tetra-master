@@ -25,7 +25,6 @@ class card(pygame.sprite.Sprite):
     def deselect(self):
         self.selected = False
     def remove_from_hand(self,cards):
-        cards = cards
         for monster in cards:
             if monster.name == self.name:
                 cards.remove(monster)
